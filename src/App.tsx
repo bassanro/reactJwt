@@ -1,10 +1,13 @@
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import 'antd/dist/antd.css';
 import { Login } from './pages/login';
 import { Register } from './pages/Register';
 import { Logout } from './pages/logout';
 import { SecureLogin } from './pages/Application';
+
+import 'antd/dist/antd.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
