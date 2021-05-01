@@ -1,13 +1,13 @@
 import { notification } from "antd";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../../services/auth.service";
+import { authenticationService } from "../../services/auth.service";
 
 export function Logout() {
 
   const history = useHistory();
     useEffect(() => {
-        AuthService.logout();
+      authenticationService.logout();
         notification.open({
           message: 'Logout successfull',
           description:

@@ -1,38 +1,48 @@
 import axios from "axios";
+import { BehaviorSubject } from 'rxjs';
 
 //Backend auth service.
 const API_URL = "http://localhost:8080/api/auth/";
 
-class AuthService {
-  login(emailId, password) {
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+
+export const authenticationService = {
+  login,
+  logout,
+  register,
+  currentUser: currentUserSubject.asObservable(),
+  get currentUserValue () { return currentUserSubject.Value }
+}
+
+  function login(userName, password) {
     return axios
-      .post(API_URL + "signin", {
-        emailId,
+      .post(API_URL + "users/authenticate", {
+        userName,
         password
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("currentUser", JSON.stringify(response.data));
+          currentUserSubject.next(response.data);
         }
-
         return response.data;
       });
   }
 
-  logout() {
-    localStorage.removeItem("user");
+  function logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    currentUserSubject.next(null);
   }
 
-  register(email, password) {
+  function register(userName, password) {
     return axios.post(API_URL + "signup", {
-      email,
+      userName,
       password
     });
   }
 
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
-  }
-}
+  // function getCurrentUser() {
+  //   return JSON.parse(localStorage.getItem('currentUser'));;
+  // }
 
-export default new AuthService();

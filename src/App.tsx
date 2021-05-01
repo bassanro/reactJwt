@@ -3,13 +3,23 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Login } from './pages/login';
 import { Register } from './pages/Register';
 import { Logout } from './pages/logout';
-import { SecureLogin } from './pages/Application';
+import { HomePage } from './pages/Application';
 
 import 'antd/dist/antd.css';
-import 'react-toastify/dist/ReactToastify.css';
+import { PrivateRoute } from './components/PrivateRoute';
+import { useEffect, useState } from 'react';
+import { authenticationService } from './services/auth.service';
 
 
 function App() {
+  const [currentUser, setCurrentUser] = useState<null|any>(null);
+
+  useEffect(() => {
+    authenticationService.currentUser.subscribe(x => setCurrentUser(x));
+    } , []);
+
+    console.log(currentUser);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,10 +28,8 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
-          <Route exact path="/loggedIn" component={SecureLogin}/>
+          <PrivateRoute exact path="/loggedIn" component={HomePage}/>
           <Route exact path="/" component={Login} />
-      
-
         </Switch>
       </BrowserRouter>
       </header>

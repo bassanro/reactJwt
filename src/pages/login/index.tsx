@@ -1,12 +1,12 @@
 import { Alert, Button, Col, Divider, Input, Row, Space } from "antd";
 import React, { useState } from "react";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import AuthService from "../../services/auth.service";
 import { useHistory } from "react-router";
+import { authenticationService } from "../../services/auth.service";
 
 export function Login(props : any) {
 
-    const [emailId, setEmailId] = useState<string>();
+    const [userName, setuserName] = useState<string>();
     const [password, setPassword] = useState<string>();
     const history = useHistory();
 
@@ -15,7 +15,7 @@ export function Login(props : any) {
 
     const handleSubmitButton = async () => {
       // Validate ID and password from backend.
-      AuthService.login(emailId, password).then(() => {
+      authenticationService.login(userName, password).then(() => {
         <Alert message="Login Successfull" type="success" showIcon/>
         history.push('/loggedIn');
         window.location.reload();
@@ -29,10 +29,10 @@ export function Login(props : any) {
         <Divider orientation="center" className="divider" style={{color: "white"}}>Sign In</Divider>
         <Row justify="space-between" style={rowStyle} >
           <Col lg={12}>
-            <label className="Label">EmailId: </label>
+            <label className="Label">User Name: </label>
           </Col>
           <Col lg={12}>
-            <Input placeholder="EmailId" className="Label" value={emailId} onChange={e => setEmailId(e.target.value)}/>
+            <Input placeholder="userName" className="Label" value={userName} onChange={e => setuserName(e.target.value)}/>
           </Col>
         </Row>
         <Row justify="space-between" style={rowStyle}>

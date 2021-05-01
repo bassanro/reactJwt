@@ -1,7 +1,7 @@
 import { Image } from 'antd';
 
 
-export function SecureLogin() {
+export function HomePage() {
     return (
         <Image.PreviewGroup>
           <Image

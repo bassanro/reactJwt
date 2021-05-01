@@ -2,12 +2,12 @@ import { Button, Col, Divider, Input, Row, Space } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../../services/auth.service";
+import { authenticationService } from "../../services/auth.service";
 
 
 export function Register() {
 
-  const [emailId, setEmailId] = useState<string>();
+  const [userName, setuserName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [, setMessage] = useState<string|undefined>();
   const history = useHistory();
@@ -17,7 +17,7 @@ export function Register() {
 
     
     const handleSubmitButton = async () => {
-      AuthService.register(emailId, password).then((response : any)  => {
+      authenticationService.register(userName, password).then((response : any)  => {
         setMessage(response.data.message)
         history.push('/login');
         window.location.reload();
@@ -31,10 +31,10 @@ export function Register() {
         <Divider orientation="center" className="divider" style={{color: "white"}}>Register</Divider>
         <Row justify="space-between" style={rowStyle} >
           <Col lg={12}>
-            <label className="Label">Email Id </label>
+            <label className="Label">userName Id </label>
           </Col>
           <Col lg={12}>
-            <Input placeholder="EmailId" className="Label" value={emailId} onChange={e => setEmailId(e.target.value)}/>
+            <Input placeholder="userName" className="Label" value={userName} onChange={e => setuserName(e.target.value)}/>
           </Col>
         </Row>
         <Row justify="space-between" style={rowStyle}>
